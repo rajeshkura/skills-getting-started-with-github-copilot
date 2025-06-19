@@ -101,8 +101,10 @@ def signup_for_activity(activity_name: str, email: str):
     # Get the specific activity
     activity = activities[activity_name]
 
-    # Validate email is provided
-    if not email or "@" not in email or "." not in email:
+    # Validate email is provided using regex
+    import re
+    email_pattern = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+    if not email or not re.match(email_pattern, email):
         raise HTTPException(status_code=400, detail="A valid email address must be provided")
     # Check if already signed up
     if email in activity["participants"]:
